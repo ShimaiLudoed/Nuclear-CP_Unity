@@ -29,18 +29,18 @@ public class ResDataService
             return data;
         }
     }
-    public void SetEnableTime(float Time, ResourceType resourcetype)
+    public void SetEnableTime(float timer, ResourceType resourcetype)
     {
-        if (Data.EnableTime(resourcetype, out float time)>0)
+        if (Data.EnableTime(resourcetype, out float time))
         {
-            Time=time;
+            timer = time;
         }
     }
-    public void SetDisableTime(float Time, ResourceType resourcetype)
+    public void SetDisableTime(float timer, ResourceType resourcetype)
     {
-        if (Data.DisableTime(resourcetype, out float time) > 0)
+        if (Data.DisableTime(resourcetype, out float time))
         {
-            Time = time;
+            timer = time;
         }
     }
 }

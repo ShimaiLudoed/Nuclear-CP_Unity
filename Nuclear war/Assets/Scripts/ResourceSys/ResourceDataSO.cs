@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 
@@ -7,31 +8,31 @@ public class ResourceDataSO : ScriptableObject
 {
     [field: SerializeField] public List<ResourceData> ResourceData {  get; private set; }
 
-    public float EnableTime(ResourceType resourceType, out float time)
+    public bool EnableTime(ResourceType resourceType, out float time)
     {
+        time = default;
         foreach (var viewTime in ResourceData)
         {
             if (viewTime.ResourceType== resourceType)
             {
                 time = viewTime.EnableTime;
-                return time;
+                return true;
             }
         }
-        time = 0f;
-        return default;
+        return false;
     }
 
-    public float DisableTime(ResourceType resourceType, out float time)
+    public bool DisableTime(ResourceType resourceType, out float time)
     {
+        time = default;
         foreach (var viewTime in ResourceData)
         {
             if (viewTime.ResourceType == resourceType)
             {
                 time = viewTime.DisableTime;
-                return time;
+                return true;
             }
         }
-        time = 0f;
-        return default;
+        return false;
     }
 }
