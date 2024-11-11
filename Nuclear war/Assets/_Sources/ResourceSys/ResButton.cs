@@ -32,14 +32,14 @@ namespace ResourceSys
             ResViewService.Instance.SetEnableIcon(Image, resourceType);
             ISdangerTime = false;
             curTime = startTimer;
-            Debug.Log("Запуск таймера" + ISdangerTime + curTime );
+            Debug.Log("Р—Р°РїСѓСЃРє С‚Р°Р№РјРµСЂР°" + ISdangerTime + curTime + resourceType );
         }
         public void EndCycle()
         {
             ResViewService.Instance.SetDisableIcon(Image, resourceType);
             ISdangerTime = true;
             curTime = endTimer;
-            Debug.Log("Запуск дедли таймера" + ISdangerTime + curTime);
+            Debug.Log("Р—Р°РїСѓСЃРє РґРµРґР»Рё С‚Р°Р№РјРµСЂР°" + ISdangerTime + curTime + resourceType);
         }
         private void Update()
         {
