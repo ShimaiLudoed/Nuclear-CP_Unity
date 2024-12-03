@@ -1,60 +1,94 @@
 using Core;
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace ResourceSys
 {
     public class ResButton : MonoBehaviour
     {
-        private ResourceType resourceType;
-        [SerializeField] private Image Image;
-        [SerializeField] private Button button;
+        [SerializeField]private ResourceType resourceType1;
+        [SerializeField]private ResourceType resourceType2;
+        [SerializeField] private Image image1;
+        [SerializeField] private Image image2;
+        [SerializeField] private Button button1;
+        [SerializeField] private Button button2;
         public static event Action endGame;
         private float startTimer;
         private float endTimer;
-        private float curTime=1000f;
+        private float curTime1=1000f;
+        private float curTime2=1000f;
         private bool ISdangerTime;
 
         private void Awake()
         {       
-            ResDataService.Instance.SetEnableTime(ref startTimer, resourceType);
-            ResDataService.Instance.SetDisableTime(ref endTimer, resourceType);
+            ResDataService.Instance.SetEnableTime(ref startTimer, resourceType1);
+            ResDataService.Instance.SetDisableTime(ref endTimer, resourceType1);
+            ResDataService.Instance.SetEnableTime(ref startTimer, resourceType2);
+            ResDataService.Instance.SetDisableTime(ref endTimer, resourceType2);
         }
         private void Start()
         {
-            StartCycle();
-            button.onClick.AddListener(StartCycle);
+            button1.onClick.AddListener(StartCycleForButton1);
+            button2.onClick.AddListener(StartCycleForButton2);
         }
-        public void StartCycle()
+
+        public void StartCycleForButton1()
         {
-            ResViewService.Instance.SetEnableIcon(Image, resourceType);
+            ResViewService.Instance.SetEnableIcon(image1, resourceType1);
             ISdangerTime = false;
-            curTime = startTimer;
-            Debug.Log("Запуск таймера" + ISdangerTime + curTime );
+            curTime1 = startTimer;
+            Debug.Log("Кнопка 1: " + resourceType1);
         }
+
+        public void StartCycleForButton2()
+        {
+            ResViewService.Instance.SetEnableIcon(image2, resourceType2);
+            ISdangerTime = false;
+            curTime2 = startTimer;
+            Debug.Log("Кнопка 2: " + resourceType2);
+        }
+
         public void EndCycle()
         {
-            ResViewService.Instance.SetDisableIcon(Image, resourceType);
+            ResViewService.Instance.SetDisableIcon(image1, resourceType1);
             ISdangerTime = true;
-            curTime = endTimer;
-            Debug.Log("Запуск дедли таймера" + ISdangerTime + curTime);
+            curTime1 = endTimer;
+            Debug.Log("Запуск дедли таймера" + ISdangerTime + curTime1);
+        }
+        public void EndCycle2()
+        {
+            ResViewService.Instance.SetDisableIcon(image2, resourceType2);
+            ISdangerTime = true;
+            curTime2 = endTimer;
+            Debug.Log("Запуск дедли таймера" + ISdangerTime + curTime2);
         }
         private void Update()
         {
-            if (curTime <= 0)
+            if (curTime1 <= 0)
             {
                 EndCycle();
             }
             else
             {
-                curTime -= Time.deltaTime;
+                curTime1 -= Time.deltaTime;
             }
-            if (ISdangerTime&& curTime<=0)
+            if (ISdangerTime&& curTime1<=0)
+            {
+                endGame?.Invoke();
+            }
+            if (curTime2 <= 0)
+            {
+                EndCycle2();
+            }
+            else
+            {
+                curTime2 -= Time.deltaTime;
+            }
+            if (ISdangerTime && curTime2 <= 0)
             {
                 endGame?.Invoke();
             }
         }
     }
-}
+}   
